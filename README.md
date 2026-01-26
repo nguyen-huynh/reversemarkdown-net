@@ -1,15 +1,15 @@
-# Meet ReverseMarkdown
+# Giới Thiệu ReverseMarkdown
 
 [![Build status](https://github.com/mysticmind/reversemarkdown-net/actions/workflows/ci.yaml/badge.svg)](https://github.com/mysticmind/reversemarkdown-net/actions/workflows/ci.yaml) [![NuGet Version](https://badgen.net/nuget/v/reversemarkdown)](https://www.nuget.org/packages/ReverseMarkdown/)
 
-ReverseMarkdown is a Html to Markdown converter library in C#. Conversion is very reliable since the HtmlAgilityPack (HAP) library is used for traversing the HTML DOM.
+ReverseMarkdown là thư viện chuyển đổi HTML sang Markdown được viết bằng C#. Chuyển đổi rất đáng tin cậy vì sử dụng thư viện HtmlAgilityPack (HAP) để duyệt HTML DOM.
 
-If you have used and benefitted from this library. Please feel free to sponsor me!<br>
+Nếu bạn đã sử dụng và được hưởng lợi từ thư viện này, hãy thoải mái tài trợ cho tôi!<br>
 <a href="https://github.com/sponsors/mysticmind" target="_blank"><img height="30" style="border:0px;height:36px;" src="https://img.shields.io/static/v1?label=GitHub Sponsor&message=%E2%9D%A4&logo=GitHub" border="0" alt="GitHub Sponsor" /></a>
 
-## Usage
+## Cách Sử Dụng
 
-Install the package from NuGet using `Install-Package ReverseMarkdown` or clone the repository and build it yourself.
+Cài đặt gói từ NuGet bằng lệnh `Install-Package ReverseMarkdown` hoặc clone kho lưu trữ và tự build.
 
 <!-- snippet: Usage -->
 <a id='snippet-Usage'></a>
@@ -23,7 +23,7 @@ string result = converter.Convert(html);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L12-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-Usage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-Will result in:
+Sẽ cho kết quả:
 
 <!-- snippet: Snippets.Usage.verified.txt -->
 <a id='snippet-Snippets.Usage.verified.txt'></a>
@@ -33,7 +33,7 @@ This a sample **paragraph** from [my site](http://test.com)
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.Usage.verified.txt#L1-L1' title='Snippet source file'>snippet source</a> | <a href='#snippet-Snippets.Usage.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-The conversion can also be customized:
+Chuyển đổi cũng có thể được tùy chỉnh:
 
 <!-- snippet: UsageWithConfig -->
 <a id='snippet-UsageWithConfig'></a>
@@ -55,51 +55,51 @@ var converter = new ReverseMarkdown.Converter(config);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L28-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-UsageWithConfig' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-## Configuration options
+## Tùy Chọn Cấu Hình
 
-* `DefaultCodeBlockLanguage` - Option to set the default code block language for Github style markdown if class based language markers are not available
-* `GithubFlavored` - Github style markdown for br, pre and table. Default is false
-* `SlackFlavored` - Slack style markdown formatting. When enabled, uses `*` for bold, `_` for italic, `~` for strikethrough, and `•` for list bullets. Default is false
-* `CleanupUnnecessarySpaces` - Cleanup unnecessary spaces in the output. Default is true
-* `SuppressDivNewlines` - Removes prefixed newlines from `div` tags. Default is false
-* `ListBulletChar` - Allows you to change the bullet character. Default value is `-`. Some systems expect the bullet character to be `*` rather than `-`, this config allows you to change it. Note: This option is ignored when `SlackFlavored` is enabled
-* `RemoveComments` - Remove comment tags with text. Default is false
-* `SmartHrefHandling` - How to handle `<a>` tag href attribute
-  * `false` - Outputs `[{name}]({href}{title})` even if the name and href is identical. This is the default option.
-  * `true` - If the name and href equals, outputs just the `name`. Note that if the Uri is not well formed as per [`Uri.IsWellFormedUriString`](https://docs.microsoft.com/en-us/dotnet/api/system.uri.iswellformeduristring) (i.e string is not correctly escaped like `http://example.com/path/file name.docx`) then markdown syntax will be used anyway.
+* `DefaultCodeBlockLanguage` - Tùy chọn để đặt ngôn ngữ mặc định cho khối code theo kiểu Github markdown nếu không có các đánh dấu ngôn ngữ dựa trên class
+* `GithubFlavored` - Markdown theo kiểu Github cho br, pre và table. Mặc định là false
+* `SlackFlavored` - Định dạng markdown theo kiểu Slack. Khi bật, sử dụng `*` cho in đậm, `_` cho in nghiêng, `~` cho gạch ngang, và `•` cho dấu đầu dòng danh sách. Mặc định là false
+* `CleanupUnnecessarySpaces` - Dọn dẹp khoảng trắng không cần thiết trong đầu ra. Mặc định là true
+* `SuppressDivNewlines` - Loại bỏ dòng mới có tiền tố từ thẻ `div`. Mặc định là false
+* `ListBulletChar` - Cho phép bạn thay đổi ký tự dấu đầu dòng. Giá trị mặc định là `-`. Một số hệ thống yêu cầu ký tự dấu đầu dòng là `*` thay vì `-`, cấu hình này cho phép bạn thay đổi nó. Lưu ý: Tùy chọn này bị bỏ qua khi `SlackFlavored` được bật
+* `RemoveComments` - Loại bỏ thẻ comment cùng với văn bản. Mặc định là false
+* `SmartHrefHandling` - Cách xử lý thuộc tính href của thẻ `<a>`
+  * `false` - Xuất `[{name}]({href}{title})` ngay cả khi name và href giống nhau. Đây là tùy chọn mặc định.
+  * `true` - Nếu name và href bằng nhau, chỉ xuất `name`. Lưu ý rằng nếu Uri không được định dạng tốt theo [`Uri.IsWellFormedUriString`](https://docs.microsoft.com/en-us/dotnet/api/system.uri.iswellformeduristring) (ví dụ: chuỗi không được escape đúng như `http://example.com/path/file name.docx`) thì cú pháp markdown vẫn sẽ được sử dụng.
 
-    If `href` contains `http/https` protocol, and `name` doesn't but otherwise are the same, output `href` only
+    Nếu `href` chứa giao thức `http/https`, và `name` thì không nhưng giống nhau, chỉ xuất `href`
 
-    If `tel:` or `mailto:` scheme, but afterwards identical with name, output `name` only.
-* `UnknownTags` - handle unknown tags.
-  * `UnknownTagsOption.PassThrough` - Include the unknown tag completely into the result. That is, the tag along with the text will be left in output. This is the default
-  * `UnknownTagsOption.Drop` - Drop the unknown tag and its content
-  * `UnknownTagsOption.Bypass` - Ignore the unknown tag but try to convert its content
-  * `UnknownTagsOption.Raise` - Raise an error to let you know
-* `PassThroughTags` - Pass a list of tags to pass through as-is without any processing.
-* `WhitelistUriSchemes` - Specify which schemes (without trailing colon) are to be allowed for `<a>` and `<img>` tags. Others will be bypassed (output text or nothing). By default allows everything.
+    Nếu là scheme `tel:` hoặc `mailto:`, nhưng sau đó giống với name, chỉ xuất `name`.
+* `UnknownTags` - xử lý các thẻ không xác định.
+  * `UnknownTagsOption.PassThrough` - Bao gồm hoàn toàn thẻ không xác định vào kết quả. Tức là, thẻ cùng với văn bản sẽ được giữ lại trong đầu ra. Đây là mặc định
+  * `UnknownTagsOption.Drop` - Loại bỏ thẻ không xác định và nội dung của nó
+  * `UnknownTagsOption.Bypass` - Bỏ qua thẻ không xác định nhưng cố gắng chuyển đổi nội dung của nó
+  * `UnknownTagsOption.Raise` - Đưa ra lỗi để cho bạn biết
+* `PassThroughTags` - Truyền danh sách các thẻ để truyền qua nguyên trạng mà không xử lý gì.
+* `WhitelistUriSchemes` - Chỉ định các scheme nào (không có dấu hai chấm ở cuối) được phép cho thẻ `<a>` và `<img>`. Những cái khác sẽ bị bỏ qua (xuất văn bản hoặc không có gì). Mặc định cho phép mọi thứ.
 
-  If `string.Empty` provided and when `href` or `src` schema couldn't be determined - whitelists
+  Nếu cung cấp `string.Empty` và khi không thể xác định schema `href` hoặc `src` - đưa vào whitelist
 
-  Schema is determined by `Uri` class, with exception when url begins with `/` (file schema) and `//` (http schema)
-* `TableWithoutHeaderRowHandling` - handle table without header rows
-  * `TableWithoutHeaderRowHandlingOption.Default` - First row will be used as header row (default)
-  * `TableWithoutHeaderRowHandlingOption.EmptyRow` - An empty row will be added as the header row
-* `TableHeaderColumnSpanHandling` - Set this flag to handle or process table header column with column spans. Default is true
-* `Base64Images` - Control how base64-encoded images (inline data URIs) are handled during conversion
-  * `Base64ImageHandling.Include` - Include base64-encoded images in the markdown output as-is (default behavior)
-  * `Base64ImageHandling.Skip` - Skip/ignore base64-encoded images entirely
-  * `Base64ImageHandling.SaveToFile` - Save base64-encoded images to disk and reference the saved file path in markdown. Requires `Base64ImageSaveDirectory` to be set
-* `Base64ImageSaveDirectory` - When `Base64Images` is set to `SaveToFile`, specifies the directory path where images should be saved
-* `Base64ImageFileNameGenerator` - When `Base64Images` is set to `SaveToFile`, this function generates a filename for each saved image. The function receives the image index (int) and MIME type (string), and should return a filename without extension. If not specified, images will be named as `image_0`, `image_1`, etc.
+  Schema được xác định bởi class `Uri`, ngoại trừ khi url bắt đầu bằng `/` (file schema) và `//` (http schema)
+* `TableWithoutHeaderRowHandling` - xử lý bảng không có hàng tiêu đề
+  * `TableWithoutHeaderRowHandlingOption.Default` - Hàng đầu tiên sẽ được sử dụng làm hàng tiêu đề (mặc định)
+  * `TableWithoutHeaderRowHandlingOption.EmptyRow` - Một hàng trống sẽ được thêm vào làm hàng tiêu đề
+* `TableHeaderColumnSpanHandling` - Đặt cờ này để xử lý hoặc xử lý cột tiêu đề bảng với column spans. Mặc định là true
+* `Base64Images` - Kiểm soát cách xử lý hình ảnh được mã hóa base64 (URI dữ liệu nội tuyến) trong quá trình chuyển đổi
+  * `Base64ImageHandling.Include` - Bao gồm hình ảnh được mã hóa base64 trong đầu ra markdown nguyên trạng (hành vi mặc định)
+  * `Base64ImageHandling.Skip` - Bỏ qua/bỏ qua hoàn toàn hình ảnh được mã hóa base64
+  * `Base64ImageHandling.SaveToFile` - Lưu hình ảnh được mã hóa base64 vào đĩa và tham chiếu đường dẫn tệp đã lưu trong markdown. Yêu cầu đặt `Base64ImageSaveDirectory`
+* `Base64ImageSaveDirectory` - Khi `Base64Images` được đặt thành `SaveToFile`, chỉ định đường dẫn thư mục nơi hình ảnh sẽ được lưu
+* `Base64ImageFileNameGenerator` - Khi `Base64Images` được đặt thành `SaveToFile`, hàm này tạo tên tệp cho mỗi hình ảnh được lưu. Hàm nhận chỉ mục hình ảnh (int) và kiểu MIME (string), và phải trả về tên tệp không có phần mở rộng. Nếu không được chỉ định, hình ảnh sẽ được đặt tên là `image_0`, `image_1`, v.v.
 
-### Base64 Image Handling Examples
+### Ví Dụ Xử Lý Hình Ảnh Base64
 
-ReverseMarkdown provides flexible options for handling base64-encoded images (inline data URIs) during HTML to Markdown conversion.
+ReverseMarkdown cung cấp các tùy chọn linh hoạt để xử lý hình ảnh được mã hóa base64 (URI dữ liệu nội tuyến) trong quá trình chuyển đổi HTML sang Markdown.
 
-**Include Base64 Images (Default)**
+**Bao Gồm Hình Ảnh Base64 (Mặc định)**
 
-By default, base64-encoded images are included in the markdown output as-is:
+Theo mặc định, hình ảnh được mã hóa base64 được bao gồm trong đầu ra markdown nguyên trạng:
 
 <!-- snippet: Base64ImageInclude -->
 <a id='snippet-Base64ImageInclude'></a>
@@ -112,9 +112,9 @@ string result = converter.Convert(html);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L50-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Base64ImageInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-**Skip Base64 Images**
+**Bỏ Qua Hình Ảnh Base64**
 
-To ignore base64-encoded images entirely:
+Để bỏ qua hoàn toàn hình ảnh được mã hóa base64:
 
 <!-- snippet: Base64ImageSkip -->
 <a id='snippet-Base64ImageSkip'></a>
@@ -131,9 +131,9 @@ string result = converter.Convert(html);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L63-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-Base64ImageSkip' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-**Save Base64 Images to Disk**
+**Lưu Hình Ảnh Base64 Vào Đĩa**
 
-To extract and save base64-encoded images to disk:
+Để trích xuất và lưu hình ảnh được mã hóa base64 vào đĩa:
 
 <!-- snippet: Base64ImageSaveToFile -->
 <a id='snippet-Base64ImageSaveToFile'></a>
@@ -152,9 +152,9 @@ string result = converter.Convert(html);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L80-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-Base64ImageSaveToFile' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-**Custom Filename Generator**
+**Tùy Chỉnh Bộ Tạo Tên Tệp**
 
-You can provide a custom filename generator for saved images:
+Bạn có thể cung cấp bộ tạo tên tệp tùy chỉnh cho hình ảnh được lưu:
 
 <!-- snippet: Base64ImageCustomFilename -->
 <a id='snippet-Base64ImageCustomFilename'></a>
@@ -175,7 +175,7 @@ var converter = new ReverseMarkdown.Converter(config);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L99-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-Base64ImageCustomFilename' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-**Supported Image Formats:**
+**Định Dạng Hình Ảnh Được Hỗ Trợ:**
 - PNG (`image/png`)
 - JPEG (`image/jpeg`, `image/jpg`)
 - GIF (`image/gif`)
@@ -184,44 +184,44 @@ var converter = new ReverseMarkdown.Converter(config);
 - WebP (`image/webp`)
 - SVG (`image/svg+xml`)
 
-## Features
+## Tính Năng
 
-* Supports all the established html tags like h1, h2, h3, h4, h5, h6, p, em, strong, i, b, blockquote, code, img, a, hr, li, ol, ul, table, tr, th, td, br
-* Supports nested lists
-* Github Flavoured Markdown conversion supported for br, pre, tasklists and table. Use `var config = new ReverseMarkdown.Config(githubFlavoured:true);`. By default the table will always be converted to Github flavored markdown immaterial of this flag
-* Slack Flavoured Markdown conversion supported. Use `var config = new ReverseMarkdown.Config { SlackFlavored = true };`
-* Improved performance with optimized text writer approach and O(1) ancestor lookups
-* Support for nested tables (converted as HTML inside markdown)
-* Support for table captions (rendered as paragraph above table)
-* Base64-encoded image handling with options to include as-is, skip, or save to disk
+* Hỗ trợ tất cả các thẻ html đã được thiết lập như h1, h2, h3, h4, h5, h6, p, em, strong, i, b, blockquote, code, img, a, hr, li, ol, ul, table, tr, th, td, br
+* Hỗ trợ danh sách lồng nhau
+* Hỗ trợ chuyển đổi Github Flavoured Markdown cho br, pre, tasklists và table. Sử dụng `var config = new ReverseMarkdown.Config(githubFlavoured:true);`. Theo mặc định, bảng sẽ luôn được chuyển đổi sang Github flavored markdown bất kể cờ này
+* Hỗ trợ chuyển đổi Slack Flavoured Markdown. Sử dụng `var config = new ReverseMarkdown.Config { SlackFlavored = true };`
+* Cải thiện hiệu suất với phương pháp text writer được tối ưu hóa và tra cứu tổ tiên O(1)
+* Hỗ trợ bảng lồng nhau (được chuyển đổi thành HTML bên trong markdown)
+* Hỗ trợ chú thích bảng (được hiển thị dưới dạng đoạn văn phía trên bảng)
+* Xử lý hình ảnh được mã hóa base64 với các tùy chọn bao gồm nguyên trạng, bỏ qua hoặc lưu vào đĩa
 
-## Breaking Changes
+## Thay Đổi Phá Vỡ
 
 ### v5.0.0
 
-**Configuration Changes:**
-* `WhitelistUriSchemes` - Changed from `string[]` to `HashSet<string>` (read-only property). Use `.Add()` method to add schemes instead of array assignment
-* `PassThroughTags` - Changed from `string[]` to `HashSet<string>`
+**Thay Đổi Cấu Hình:**
+* `WhitelistUriSchemes` - Đã thay đổi từ `string[]` sang `HashSet<string>` (thuộc tính chỉ đọc). Sử dụng phương thức `.Add()` để thêm schemes thay vì gán mảng
+* `PassThroughTags` - Đã thay đổi từ `string[]` sang `HashSet<string>`
 
-**API Changes:**
-* `IConverter` interface signature changed from `string Convert(HtmlNode node)` to `void Convert(TextWriter writer, HtmlNode node)`. If you have custom converters, you'll need to update them to write to the TextWriter instead of returning a string
+**Thay Đổi API:**
+* Chữ ký giao diện `IConverter` đã thay đổi từ `string Convert(HtmlNode node)` sang `void Convert(TextWriter writer, HtmlNode node)`. Nếu bạn có các converter tùy chỉnh, bạn sẽ cần cập nhật chúng để ghi vào TextWriter thay vì trả về chuỗi
 
-**Target Framework Changes:**
+**Thay Đổi Target Framework:**
 
-* Removed support for legacy and end-of-life .NET versions. Only actively supported .NET versions are now targeted i.e. .NET 8, .NET 9 and .NET 10.
+* Đã loại bỏ hỗ trợ cho các phiên bản .NET cũ và đã hết vòng đời. Chỉ các phiên bản .NET được hỗ trợ tích cực mới được nhắm mục tiêu, tức là .NET 8, .NET 9 và .NET 10.
 
 ### v2.0.0
 
-* `UnknownTags` config has been changed to an enumeration
+* Cấu hình `UnknownTags` đã được thay đổi thành kiểu enumeration
 
-## Acknowledgements
+## Lời Cảm Ơn
 
-This library's initial implementation ideas from the Ruby based Html to Markdown converter [xijo/reverse_markdown](https://github.com/xijo/reverse_markdown).
+Ý tưởng triển khai ban đầu của thư viện này từ bộ chuyển đổi Html sang Markdown dựa trên Ruby [xijo/reverse_markdown](https://github.com/xijo/reverse_markdown).
 
-## Copyright
+## Bản Quyền
 
 Copyright © Babu Annamalai
 
-## License
+## Giấy Phép
 
-ReverseMarkdown is licensed under [MIT](http://www.opensource.org/licenses/mit-license.php "Read more about the MIT license form"). Refer to [License file](https://github.com/mysticmind/reversemarkdown-net/blob/master/LICENSE) for more information.
+ReverseMarkdown được cấp phép theo [MIT](http://www.opensource.org/licenses/mit-license.php "Read more about the MIT license form"). Tham khảo [tệp License](https://github.com/mysticmind/reversemarkdown-net/blob/master/LICENSE) để biết thêm thông tin.
