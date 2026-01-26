@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using HtmlAgilityPack;
+using ReverseMarkdown.Helpers;
 
 
 namespace ReverseMarkdown.Converters {

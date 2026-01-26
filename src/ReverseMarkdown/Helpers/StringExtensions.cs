@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 
@@ -12,10 +13,47 @@ public static class StringExtensions {
             .Trim();
     }
 
+#if NET5_0_OR_GREATER
     internal static LineSplitEnumerator ReadLines(this string content)
     {
         return new LineSplitEnumerator(content);
     }
+#else
+    // .NET Framework 4.8 fallback - return IEnumerable<string> instead of ref struct
+    internal static IEnumerable<string> ReadLines(this string content)
+    {
+        if (string.IsNullOrEmpty(content))
+        {
+            yield break;
+        }
+
+        int pos = 0;
+        while (pos < content.Length)
+        {
+            int lineEnd = content.IndexOfAny(new[] { '\r', '\n' }, pos);
+            
+            if (lineEnd >= 0)
+            {
+                yield return content.Substring(pos, lineEnd - pos);
+                
+                // Handle \r\n
+                if (content[lineEnd] == '\r' && lineEnd + 1 < content.Length && content[lineEnd + 1] == '\n')
+                {
+                    pos = lineEnd + 2;
+                }
+                else
+                {
+                    pos = lineEnd + 1;
+                }
+            }
+            else
+            {
+                yield return content.Substring(pos);
+                break;
+            }
+        }
+    }
+#endif
 
     internal static string Replace(this string content, StringReplaceValues replacements)
     {

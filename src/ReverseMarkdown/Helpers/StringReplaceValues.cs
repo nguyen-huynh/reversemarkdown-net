@@ -14,6 +14,7 @@ internal class StringReplaceValues : Dictionary<string, string> {
 
     public string Replace(string input)
     {
+#if NET5_0_OR_GREATER
         var offset = 0;
         StringBuilder? sb = null;
         foreach (var match in Regex.EnumerateMatches(input)) {
@@ -28,5 +29,9 @@ internal class StringReplaceValues : Dictionary<string, string> {
         }
 
         return sb?.ToString() ?? input;
+#else
+        // .NET Framework 4.8 fallback - use regular Regex.Replace
+        return Regex.Replace(input, match => this[match.Value]);
+#endif
     }
 }

@@ -34,8 +34,13 @@ public static partial class StringUtils {
     }
 
 
+#if NET7_0_OR_GREATER
     [GeneratedRegex(@"\r?\n\s*\r?\n", RegexOptions.Singleline)]
     private static partial Regex LinkTextRegex();
+#else
+    private static readonly Regex _linkTextRegex = new Regex(@"\r?\n\s*\r?\n", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static Regex LinkTextRegex() => _linkTextRegex;
+#endif
 
     private static readonly StringReplaceValues _linkTextReplaceValues = new() {
         ["["] = @"\[",

@@ -44,8 +44,13 @@ namespace ReverseMarkdown.Converters {
             ["%3E"] = "&gt;",
         };
 
+#if NET7_0_OR_GREATER
         [GeneratedRegex(@"`.*?`")]
         private static partial Regex BackTicks();
+#else
+        private static readonly Regex _backTicks = new Regex(@"`.*?`", RegexOptions.Compiled);
+        private static Regex BackTicks() => _backTicks;
+#endif
 
         #endregion
 
@@ -113,9 +118,16 @@ namespace ReverseMarkdown.Converters {
 
         private static string EscapeSpecialMarkdownCharacters(string content)
         {
+#if NET6_0_OR_GREATER
             return content.StartsWith('`') && content.EndsWith('`')
                 ? content
                 : content.Replace(_specialMarkdownCharacters);
+#else
+            // .NET Framework 4.8 - string.StartsWith/EndsWith only accept string, not char
+            return content.StartsWith("`") && content.EndsWith("`")
+                ? content
+                : content.Replace(_specialMarkdownCharacters);
+#endif
         }
     }
 }
