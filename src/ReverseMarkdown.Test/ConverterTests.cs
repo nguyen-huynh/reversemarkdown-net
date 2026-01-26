@@ -1948,6 +1948,137 @@ namespace ReverseMarkdown.Test
         }
 
         [Fact]
+        public Task WhenTable_HasColSpan_AndPreserveHtmlWhenComplex_ThenOutputCleanHtml()
+        {
+            var html = @"
+                <table style='border: 1px solid' class='table-class' id='my-table'>
+                    <thead>
+                        <tr>
+                            <th colspan='2' style='text-align: center'>Header</th>
+                            <th>Col3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Bold</strong></td>
+                            <td><em>Italic</em></td>
+                            <td>Normal</td>
+                        </tr>
+                    </tbody>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
+        public Task WhenTable_HasRowSpan_AndPreserveHtmlWhenComplex_ThenOutputCleanHtml()
+        {
+            var html = @"
+                <table>
+                    <tr>
+                        <td rowspan='2'>Merged</td>
+                        <td>Cell 1</td>
+                    </tr>
+                    <tr>
+                        <td>Cell 2</td>
+                    </tr>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
+        public Task WhenTable_NoComplexStructure_AndPreserveHtmlWhenComplex_ThenConvertToMarkdown()
+        {
+            var html = @"
+                <table>
+                    <tr>
+                        <th>Col1</th>
+                        <th>Col2</th>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                    </tr>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
+        public Task WhenTable_SimpleTable_AndAlwaysPreserveHtml_ThenOutputCleanHtml()
+        {
+            var html = @"
+                <table style='width: 100%'>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                    </tr>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.AlwaysPreserveHtml
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
+        public Task WhenTable_HasCaption_AndPreserveHtml_ThenIncludeCaption()
+        {
+            var html = @"
+                <table>
+                    <caption>Table Caption</caption>
+                    <tr>
+                        <th colspan='2'>Header</th>
+                    </tr>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
+        public Task WhenTable_CellHasNestedHtml_AndPreserveHtml_ThenConvertCellContent()
+        {
+            var html = @"
+                <table>
+                    <tr>
+                        <td colspan='2'>
+                            <p>Paragraph with <strong>bold</strong> and <a href='url'>link</a></p>
+                        </td>
+                    </tr>
+                </table>";
+            
+            var config = new Config
+            {
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
+            };
+            
+            return CheckConversion(html, config);
+        }
+
+        [Fact]
         public Task WhenTable_WithCaptionContainingNestedTags_ThenExtractTextOnly()
         {
             var html = "<table><caption>Sales <strong>Report</strong> for <em>2024</em></caption><tr><th>Month</th></tr><tr><td>Jan</td></tr></table>";

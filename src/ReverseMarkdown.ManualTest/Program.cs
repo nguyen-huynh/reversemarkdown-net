@@ -41,7 +41,8 @@ namespace ReverseMarkdown.ManualTest
                 GithubFlavored = true,
                 SmartHrefHandling = true,
                 UnknownTags = Config.UnknownTagsOption.PassThrough,
-                RemoveComments = false
+                RemoveComments = false,
+                TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex
             };
 
             var converter = new Converter(config);

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complex Table with Colspan and Rowspan</title>
+</head>
+<body>
+    <h1>Product Comparison with Merged Cells</h1>
+    
+    <table border="1" style="width: 100%; border-collapse: collapse;" class="my-table" id="products">
+        <caption>Q1 2024 Product Performance</caption>
+        <thead>
+            <tr style="background: #f0f0f0;">
+                <th rowspan="2">Product</th>
+                <th colspan="2">Sales</th>
+                <th rowspan="2">Rating</th>
+            </tr>
+            <tr style="background: #f0f0f0;">
+                <th>Units</th>
+                <th>Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Product A</strong></td>
+                <td style="text-align: right;">1,000</td>
+                <td style="text-align: right;">$99,999</td>
+                <td>⭐⭐⭐⭐⭐</td>
+            </tr>
+            <tr>
+                <td><strong>Product B</strong></td>
+                <td style="text-align: right;">500</td>
+                <td style="text-align: right;">$74,995</td>
+                <td>⭐⭐⭐⭐</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Total</strong></td>
+                <td style="text-align: right;">$174,994</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Table Without Colspan/Rowspan</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td>John</td>
+            <td>25</td>
+        </tr>
+        <tr>
+            <td>Jane</td>
+            <td>30</td>
+        </tr>
+    </table>
+</body>
+</html>

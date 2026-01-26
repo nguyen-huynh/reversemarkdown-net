@@ -113,9 +113,37 @@ namespace ReverseMarkdown
         }
 
         /// <summary>
+        /// Defines how to handle complex HTML tables (with colspan/rowspan)
+        /// </summary>
+        public enum TableComplexHandlingOption
+        {
+            /// <summary>
+            /// Convert to Markdown table (may lose colspan/rowspan structure). This is the default option.
+            /// </summary>
+            ConvertToMarkdown,
+            
+            /// <summary>
+            /// Preserve as cleaned HTML when colspan/rowspan detected
+            /// </summary>
+            PreserveHtmlWhenComplex,
+            
+            /// <summary>
+            /// Always preserve table as cleaned HTML
+            /// </summary>
+            AlwaysPreserveHtml
+        }
+
+        /// <summary>
         /// Set this flag to handle table header column with column spans
         /// </summary>
         public bool TableHeaderColumnSpanHandling { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets how to handle complex HTML tables.
+        /// Default is ConvertToMarkdown for backward compatibility.
+        /// </summary>
+        public TableComplexHandlingOption TableComplexHandling { get; set; } = 
+            TableComplexHandlingOption.ConvertToMarkdown;
 
         public bool CleanupUnnecessarySpaces { get; set; } = true;
 
