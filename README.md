@@ -4,8 +4,12 @@
 
 ReverseMarkdown là thư viện chuyển đổi HTML sang Markdown được viết bằng C#. Chuyển đổi rất đáng tin cậy vì sử dụng thư viện HtmlAgilityPack (HAP) để duyệt HTML DOM.
 
-Nếu bạn đã sử dụng và được hưởng lợi từ thư viện này, hãy thoải mái tài trợ cho tôi!<br>
-<a href="https://github.com/sponsors/mysticmind" target="_blank"><img height="30" style="border:0px;height:36px;" src="https://img.shields.io/static/v1?label=GitHub Sponsor&message=%E2%9D%A4&logo=GitHub" border="0" alt="GitHub Sponsor" /></a>
+**📦 Fork này:** Đây là fork từ [mysticmind/reversemarkdown-net](https://github.com/mysticmind/reversemarkdown-net) với các cải tiến:
+- ✅ Hỗ trợ .NET Framework 4.8
+- ✅ Table Complex Handling (preserve HTML khi có colspan/rowspan)
+- ✅ Manual Test Console Application
+
+📚 **Tài liệu:** [Build Instructions](BUILD.md) | [Changelog](CHANGELOG.md)
 
 ## Cách Sử Dụng
 
@@ -57,41 +61,138 @@ var converter = new ReverseMarkdown.Converter(config);
 
 ## Tùy Chọn Cấu Hình
 
-* `DefaultCodeBlockLanguage` - Tùy chọn để đặt ngôn ngữ mặc định cho khối code theo kiểu Github markdown nếu không có các đánh dấu ngôn ngữ dựa trên class
-* `GithubFlavored` - Markdown theo kiểu Github cho br, pre và table. Mặc định là false
-* `SlackFlavored` - Định dạng markdown theo kiểu Slack. Khi bật, sử dụng `*` cho in đậm, `_` cho in nghiêng, `~` cho gạch ngang, và `•` cho dấu đầu dòng danh sách. Mặc định là false
-* `CleanupUnnecessarySpaces` - Dọn dẹp khoảng trắng không cần thiết trong đầu ra. Mặc định là true
-* `SuppressDivNewlines` - Loại bỏ dòng mới có tiền tố từ thẻ `div`. Mặc định là false
-* `ListBulletChar` - Cho phép bạn thay đổi ký tự dấu đầu dòng. Giá trị mặc định là `-`. Một số hệ thống yêu cầu ký tự dấu đầu dòng là `*` thay vì `-`, cấu hình này cho phép bạn thay đổi nó. Lưu ý: Tùy chọn này bị bỏ qua khi `SlackFlavored` được bật
-* `RemoveComments` - Loại bỏ thẻ comment cùng với văn bản. Mặc định là false
-* `SmartHrefHandling` - Cách xử lý thuộc tính href của thẻ `<a>`
-  * `false` - Xuất `[{name}]({href}{title})` ngay cả khi name và href giống nhau. Đây là tùy chọn mặc định.
-  * `true` - Nếu name và href bằng nhau, chỉ xuất `name`. Lưu ý rằng nếu Uri không được định dạng tốt theo [`Uri.IsWellFormedUriString`](https://docs.microsoft.com/en-us/dotnet/api/system.uri.iswellformeduristring) (ví dụ: chuỗi không được escape đúng như `http://example.com/path/file name.docx`) thì cú pháp markdown vẫn sẽ được sử dụng.
+### 📋 Bảng Tổng Hợp Nhanh
 
-    Nếu `href` chứa giao thức `http/https`, và `name` thì không nhưng giống nhau, chỉ xuất `href`
+| Config | Loại | Mặc định | Mô tả |
+|--------|------|----------|-------|
+| `GithubFlavored` | `bool` | `false` | Markdown theo kiểu GitHub cho br, pre, table |
+| `SlackFlavored` | `bool` | `false` | Markdown theo kiểu Slack (`*` bold, `_` italic, `~` strike) |
+| `UnknownTags` | `enum` | `PassThrough` | Xử lý các thẻ không xác định (PassThrough/Drop/Bypass/Raise) |
+| `TableComplexHandling` | `enum` | `ConvertToMarkdown` | Xử lý table có colspan/rowspan ⭐ **MỚI** |
+| `SmartHrefHandling` | `bool` | `false` | Tối ưu output cho links trùng text và href |
+| `Base64Images` | `enum` | `Include` | Xử lý hình ảnh base64 (Include/Skip/SaveToFile) |
+| `RemoveComments` | `bool` | `false` | Loại bỏ HTML comments |
+| `CleanupUnnecessarySpaces` | `bool` | `true` | Dọn dẹp khoảng trắng thừa |
+| `ListBulletChar` | `char` | `-` | Ký tự dấu đầu dòng (bỏ qua nếu SlackFlavored=true) |
+| `DefaultCodeBlockLanguage` | `string` | `null` | Ngôn ngữ mặc định cho code block |
 
-    Nếu là scheme `tel:` hoặc `mailto:`, nhưng sau đó giống với name, chỉ xuất `name`.
-* `UnknownTags` - xử lý các thẻ không xác định.
-  * `UnknownTagsOption.PassThrough` - Bao gồm hoàn toàn thẻ không xác định vào kết quả. Tức là, thẻ cùng với văn bản sẽ được giữ lại trong đầu ra. Đây là mặc định
-  * `UnknownTagsOption.Drop` - Loại bỏ thẻ không xác định và nội dung của nó
-  * `UnknownTagsOption.Bypass` - Bỏ qua thẻ không xác định nhưng cố gắng chuyển đổi nội dung của nó
-  * `UnknownTagsOption.Raise` - Đưa ra lỗi để cho bạn biết
-* `PassThroughTags` - Truyền danh sách các thẻ để truyền qua nguyên trạng mà không xử lý gì.
-* `WhitelistUriSchemes` - Chỉ định các scheme nào (không có dấu hai chấm ở cuối) được phép cho thẻ `<a>` và `<img>`. Những cái khác sẽ bị bỏ qua (xuất văn bản hoặc không có gì). Mặc định cho phép mọi thứ.
+### 📖 Chi Tiết Cấu Hình
 
-  Nếu cung cấp `string.Empty` và khi không thể xác định schema `href` hoặc `src` - đưa vào whitelist
+#### Markdown Flavors
 
-  Schema được xác định bởi class `Uri`, ngoại trừ khi url bắt đầu bằng `/` (file schema) và `//` (http schema)
-* `TableWithoutHeaderRowHandling` - xử lý bảng không có hàng tiêu đề
-  * `TableWithoutHeaderRowHandlingOption.Default` - Hàng đầu tiên sẽ được sử dụng làm hàng tiêu đề (mặc định)
-  * `TableWithoutHeaderRowHandlingOption.EmptyRow` - Một hàng trống sẽ được thêm vào làm hàng tiêu đề
-* `TableHeaderColumnSpanHandling` - Đặt cờ này để xử lý hoặc xử lý cột tiêu đề bảng với column spans. Mặc định là true
-* `Base64Images` - Kiểm soát cách xử lý hình ảnh được mã hóa base64 (URI dữ liệu nội tuyến) trong quá trình chuyển đổi
-  * `Base64ImageHandling.Include` - Bao gồm hình ảnh được mã hóa base64 trong đầu ra markdown nguyên trạng (hành vi mặc định)
-  * `Base64ImageHandling.Skip` - Bỏ qua/bỏ qua hoàn toàn hình ảnh được mã hóa base64
-  * `Base64ImageHandling.SaveToFile` - Lưu hình ảnh được mã hóa base64 vào đĩa và tham chiếu đường dẫn tệp đã lưu trong markdown. Yêu cầu đặt `Base64ImageSaveDirectory`
-* `Base64ImageSaveDirectory` - Khi `Base64Images` được đặt thành `SaveToFile`, chỉ định đường dẫn thư mục nơi hình ảnh sẽ được lưu
-* `Base64ImageFileNameGenerator` - Khi `Base64Images` được đặt thành `SaveToFile`, hàm này tạo tên tệp cho mỗi hình ảnh được lưu. Hàm nhận chỉ mục hình ảnh (int) và kiểu MIME (string), và phải trả về tên tệp không có phần mở rộng. Nếu không được chỉ định, hình ảnh sẽ được đặt tên là `image_0`, `image_1`, v.v.
+**`GithubFlavored`** (`bool`, mặc định: `false`)
+- Bật Markdown theo kiểu GitHub cho `br`, `pre`, `table`, và task lists
+- Ví dụ: Table luôn được convert sang GFM format khi có thể
+
+**`SlackFlavored`** (`bool`, mặc định: `false`)
+- Định dạng Slack: `*bold*`, `_italic_`, `~strike~`, `•` bullets
+- Ghi đè `ListBulletChar` khi bật
+
+#### Table Handling ⭐ **MỚI**
+
+**`TableComplexHandling`** (`enum`, mặc định: `ConvertToMarkdown`)
+
+Xử lý bảng HTML phức tạp (có `colspan`/`rowspan` - Markdown không hỗ trợ native):
+
+```csharp
+// Option 1: ConvertToMarkdown (mặc định - backward compatible)
+// Luôn convert sang Markdown, mất cấu trúc colspan/rowspan
+var config = new Config 
+{ 
+    TableComplexHandling = Config.TableComplexHandlingOption.ConvertToMarkdown 
+};
+
+// Option 2: PreserveHtmlWhenComplex (khuyến nghị) ⭐
+// Tự động preserve HTML CHỈ KHI phát hiện colspan/rowspan
+var config = new Config 
+{ 
+    TableComplexHandling = Config.TableComplexHandlingOption.PreserveHtmlWhenComplex 
+};
+
+// Option 3: AlwaysPreserveHtml
+// LUÔN giữ table dưới dạng HTML (compact, cleaned)
+var config = new Config 
+{ 
+    TableComplexHandling = Config.TableComplexHandlingOption.AlwaysPreserveHtml 
+};
+```
+
+**Lưu ý:**
+- Khi preserve HTML, cell content vẫn được convert sang Markdown (bold, italic, links...)
+- HTML output được làm sạch (chỉ giữ colspan/rowspan, loại bỏ styles)
+- Sử dụng `PreserveHtmlWhenComplex` cho kết quả tốt nhất
+
+**`TableWithoutHeaderRowHandling`** (`enum`, mặc định: `Default`)
+- `Default`: Hàng đầu tiên làm header
+- `EmptyRow`: Thêm hàng trống làm header
+
+**`TableHeaderColumnSpanHandling`** (`bool`, mặc định: `true`)
+- Xử lý column spans trong header row
+
+#### Links & Images
+
+**`SmartHrefHandling`** (`bool`, mặc định: `false`)
+
+Tối ưu output cho links:
+- `false`: Luôn xuất `[text](url)` ngay cả khi text = url
+- `true`: Tối ưu hóa:
+  - Nếu text = url → chỉ xuất `url`
+  - `tel:123` với text "123" → chỉ xuất `123`
+  - `mailto:a@b.c` với text "a@b.c" → chỉ xuất `a@b.c`
+  - `http://example.com` với text "example.com" → xuất `http://example.com`
+
+**`WhitelistUriSchemes`** (`HashSet<string>`)
+- Chỉ định schemes được phép cho `<a>` và `<img>` (vd: "http", "https", "ftp")
+- Mặc định: cho phép tất cả
+- Schemes khác sẽ bị bỏ qua
+
+**`Base64Images`** (`enum`, mặc định: `Include`)
+
+Xử lý hình ảnh base64 (data URI):
+- `Include`: Giữ nguyên base64 string trong markdown
+- `Skip`: Bỏ qua hoàn toàn
+- `SaveToFile`: Lưu file và reference đường dẫn (cần `Base64ImageSaveDirectory`)
+
+**`Base64ImageSaveDirectory`** (`string`)
+- Thư mục lưu ảnh khi `Base64Images = SaveToFile`
+
+**`Base64ImageFileNameGenerator`** (`Func<int, string, string>`)
+- Custom tên file cho ảnh được lưu
+- Nhận: `(index, mimeType)` → Trả về: tên file (không có extension)
+- Mặc định: `image_0`, `image_1`, ...
+
+#### Unknown Tags & Pass-Through
+
+**`UnknownTags`** (`enum`, mặc định: `PassThrough`)
+
+Xử lý các thẻ HTML không được hỗ trợ:
+- `PassThrough`: Giữ nguyên thẻ + content trong output
+- `Drop`: Loại bỏ thẻ và content
+- `Bypass`: Bỏ thẻ nhưng convert content
+- `Raise`: Throw exception `UnknownTagException`
+
+**`PassThroughTags`** (`HashSet<string>`)
+- Danh sách thẻ để giữ nguyên HTML (không convert)
+- Ví dụ: `config.PassThroughTags.Add("svg");`
+
+#### Formatting & Cleanup
+
+**`RemoveComments`** (`bool`, mặc định: `false`)
+- Loại bỏ HTML comments (`<!-- ... -->`)
+
+**`CleanupUnnecessarySpaces`** (`bool`, mặc định: `true`)
+- Dọn dẹp khoảng trắng thừa trong output
+
+**`SuppressDivNewlines`** (`bool`, mặc định: `false`)
+- Loại bỏ newline từ thẻ `<div>`
+
+**`ListBulletChar`** (`char`, mặc định: `-`)
+- Ký tự cho unordered list bullets
+- Bị override bởi `SlackFlavored` (dùng `•`)
+
+**`DefaultCodeBlockLanguage`** (`string`, mặc định: `null`)
+- Ngôn ngữ mặc định cho fenced code blocks (GFM)
+- Sử dụng khi không có class language hint
 
 ### Ví Dụ Xử Lý Hình Ảnh Base64
 
