@@ -1,49 +1,49 @@
 # Build Instructions
 
-Hướng dẫn build ReverseMarkdown .NET library để tạo DLL cho local reference.
+Guide for building the ReverseMarkdown .NET library to create DLLs for local reference.
 
 ## Prerequisites
 
 ### Required
-- [.NET SDK](https://dotnet.microsoft.com/download) (10.0 hoặc cao hơn)
+- [.NET SDK](https://dotnet.microsoft.com/download) (10.0 or higher)
 - [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 
 ### Optional
-- Visual Studio 2022 (hoặc cao hơn) để build từ IDE
-- Git để clone repository
+- Visual Studio 2022 (or higher) to build from IDE
+- Git to clone repository
 
 ## Verify Prerequisites
 
 ```powershell
-# Kiểm tra .NET SDK version
+# Check .NET SDK version
 dotnet --version
 
-# Kiểm tra .NET Framework Developer Pack đã cài
-# Nếu có, sẽ thấy net48 trong danh sách
+# Check if .NET Framework Developer Pack is installed
+# If installed, you'll see net48 in the list
 dotnet --list-sdks
 ```
 
 ## Build Commands
 
-### 1. Build Tất Cả Target Frameworks
+### 1. Build All Target Frameworks
 
-Build cho cả `net10.0` và `net48`:
+Build for both `net10.0` and `net48`:
 
 ```powershell
 dotnet build src/ReverseMarkdown/ReverseMarkdown.csproj -c Release
 ```
 
-### 2. Build Chỉ .NET Framework 4.8
+### 2. Build Only .NET Framework 4.8
 
-Nếu chỉ cần DLL cho .NET Framework 4.8:
+If you only need the DLL for .NET Framework 4.8:
 
 ```powershell
 dotnet build src/ReverseMarkdown/ReverseMarkdown.csproj -c Release -f net48
 ```
 
-### 3. Build Từ Solution
+### 3. Build From Solution
 
-Build toàn bộ solution (bao gồm test projects):
+Build the entire solution (including test projects):
 
 ```powershell
 dotnet build src/ReverseMarkdown.sln -c Release
@@ -51,7 +51,7 @@ dotnet build src/ReverseMarkdown.sln -c Release
 
 ## Output Locations
 
-Sau khi build, DLL sẽ được tạo tại:
+After building, DLLs will be created at:
 
 ```
 src/ReverseMarkdown/bin/Release/
@@ -74,7 +74,7 @@ src/ReverseMarkdown/bin/Release/
 dotnet test src/ReverseMarkdown.Test/ReverseMarkdown.Test.csproj
 ```
 
-### Run Tests Với Coverage
+### Run Tests With Coverage
 
 ```powershell
 dotnet test src/ReverseMarkdown.Test/ReverseMarkdown.Test.csproj --collect:"XPlat Code Coverage"
@@ -84,21 +84,21 @@ dotnet test src/ReverseMarkdown.Test/ReverseMarkdown.Test.csproj --collect:"XPla
 
 ### Option 1: Direct DLL Reference (Recommended for Local Development)
 
-1. **Copy DLL và dependencies:**
+1. **Copy DLL and dependencies:**
 
 ```powershell
-# Tạo folder libs trong project của bạn
+# Create libs folder in your project
 New-Item -ItemType Directory -Force -Path "C:\YourProject\libs"
 
-# Copy DLL từ build output
+# Copy DLL from build output
 Copy-Item "src\ReverseMarkdown\bin\Release\net48\*.dll" "C:\YourProject\libs\"
 ```
 
-2. **Add reference trong Visual Studio:**
+2. **Add reference in Visual Studio:**
    - Right-click project → Add → Reference
-   - Browse → Chọn `ReverseMarkdown.dll`
+   - Browse → Select `ReverseMarkdown.dll`
 
-3. **Hoặc edit `.csproj` manually:**
+3. **Or edit `.csproj` manually:**
 
 ```xml
 <ItemGroup>
@@ -116,7 +116,7 @@ Copy-Item "src\ReverseMarkdown\bin\Release\net48\*.dll" "C:\YourProject\libs\"
 
 ### Option 2: Project Reference (For Development)
 
-Nếu bạn đang phát triển và muốn debug vào source code:
+If you're developing and want to debug into the source code:
 
 ```xml
 <ItemGroup>
@@ -126,7 +126,7 @@ Nếu bạn đang phát triển và muốn debug vào source code:
 
 ## Clean Build
 
-Để xóa tất cả build artifacts và build lại từ đầu:
+To remove all build artifacts and rebuild from scratch:
 
 ```powershell
 # Clean
@@ -140,11 +140,11 @@ dotnet build src/ReverseMarkdown/ReverseMarkdown.csproj -c Release
 
 ### Error: "The target framework 'net48' is not supported"
 
-**Giải pháp:** Cài đặt .NET Framework 4.8 Developer Pack từ https://dotnet.microsoft.com/download/dotnet-framework/net48
+**Solution:** Install .NET Framework 4.8 Developer Pack from https://dotnet.microsoft.com/download/dotnet-framework/net48
 
 ### Error: "HtmlAgilityPack could not be found"
 
-**Giải pháp:** Restore NuGet packages:
+**Solution:** Restore NuGet packages:
 
 ```powershell
 dotnet restore src/ReverseMarkdown/ReverseMarkdown.csproj
@@ -152,7 +152,7 @@ dotnet restore src/ReverseMarkdown/ReverseMarkdown.csproj
 
 ### Error: "System.Memory could not be found"
 
-**Giải pháp:** Package này tự động được restore cho net48. Chạy:
+**Solution:** This package is automatically restored for net48. Run:
 
 ```powershell
 dotnet restore src/ReverseMarkdown/ReverseMarkdown.csproj
@@ -192,17 +192,17 @@ dotnet build src/ReverseMarkdown.sln -c Release -m
 
 ## Next Steps
 
-Sau khi build thành công:
+After successful build:
 
-1. ✅ Kiểm tra DLL tại `bin/Release/net48/`
-2. ✅ Copy DLL và dependencies vào project của bạn
-3. ✅ Add reference trong Visual Studio hoặc .csproj
+1. ✅ Check DLL at `bin/Release/net48/`
+2. ✅ Copy DLL and dependencies to your project
+3. ✅ Add reference in Visual Studio or .csproj
 4. ✅ Import namespace: `using ReverseMarkdown;`
-5. ✅ Sử dụng: `var converter = new Converter();`
+5. ✅ Use it: `var converter = new Converter();`
 
 ## Manual Test Application
 
-Project này bao gồm một console application để test thủ công:
+This project includes a console application for manual testing:
 
 ```powershell
 # Build manual test app
@@ -212,18 +212,18 @@ dotnet build src/ReverseMarkdown.ManualTest/ReverseMarkdown.ManualTest.csproj -c
 cd src/ReverseMarkdown.ManualTest/bin/Release/net48
 .\ReverseMarkdown.ManualTest.exe
 
-# Đặt HTML files vào folder input/, kết quả sẽ ra folder output/
+# Place HTML files in input/ folder, results will be in output/ folder
 ```
 
 ## Documentation
 
-- [README.md](README.md) - Tổng quan và usage examples
-- [CHANGELOG.md](CHANGELOG.md) - Version history và changes
+- [README.md](README.md) - Overview and usage examples
+- [CHANGELOG.md](CHANGELOG.md) - Version history and changes
 - [AI/project-build.md](AI/project-build.md) - Detailed build plan
 
 ## Support
 
-Nếu gặp vấn đề khi build, vui lòng:
+If you encounter build issues:
 1. Check [Troubleshooting](#troubleshooting) section
-2. Verify prerequisites đã đủ
-3. Create issue trên GitHub repository
+2. Verify all prerequisites are installed
+3. Create an issue on GitHub repository
