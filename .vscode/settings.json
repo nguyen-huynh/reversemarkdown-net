@@ -1,0 +1,12 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "/^cd \"d:\\\\Repos\\\\nguyen-huynh\\\\reversemarkdown-net\\\\src\" ; dotnet clean$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^dotnet build -c Release$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}

@@ -13,6 +13,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Suppress warnings for missing XML comments (CS1591) -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- Strong Name Signing -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ReverseMarkdown.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
