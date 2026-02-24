@@ -58,13 +58,17 @@ src/ReverseMarkdown/bin/Release/
 ├── net10.0/
 │   ├── ReverseMarkdown.dll
 │   ├── ReverseMarkdown.pdb
+│   ├── ReverseMarkdown.xml          (XML documentation)
 │   └── HtmlAgilityPack.dll
 └── net48/
     ├── ReverseMarkdown.dll
     ├── ReverseMarkdown.pdb
+    ├── ReverseMarkdown.xml          (XML documentation)
     ├── HtmlAgilityPack.dll
     └── System.Memory.dll
 ```
+
+**Note:** The `.xml` file contains XML documentation for IntelliSense support in Visual Studio and API documentation generation.
 
 ## Testing
 
@@ -90,9 +94,12 @@ dotnet test src/ReverseMarkdown.Test/ReverseMarkdown.Test.csproj --collect:"XPla
 # Create libs folder in your project
 New-Item -ItemType Directory -Force -Path "C:\YourProject\libs"
 
-# Copy DLL from build output
+# Copy DLL and XML documentation from build output
 Copy-Item "src\ReverseMarkdown\bin\Release\net48\*.dll" "C:\YourProject\libs\"
+Copy-Item "src\ReverseMarkdown\bin\Release\net48\ReverseMarkdown.xml" "C:\YourProject\libs\"
 ```
+
+**Note:** Include the `.xml` file to enable IntelliSense in Visual Studio.
 
 2. **Add reference in Visual Studio:**
    - Right-click project → Add → Reference

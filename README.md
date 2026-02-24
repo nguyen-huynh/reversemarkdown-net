@@ -59,6 +59,28 @@ var converter = new ReverseMarkdown.Converter(config);
 <sup><a href='/src/ReverseMarkdown.Test/Snippets.cs#L28-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-UsageWithConfig' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
+## Build Output & Version Information
+
+**Current Version:** 5.1.0 (Fork of [mysticmind/reversemarkdown-net](https://github.com/mysticmind/reversemarkdown-net) v5.0.0)
+
+When building from source, the following files are generated:
+
+| File | Description |
+|------|-------------|
+| `ReverseMarkdown.dll` | Main library assembly |
+| `ReverseMarkdown.pdb` | Debug symbols |
+| `ReverseMarkdown.xml` | XML documentation for IntelliSense |
+| `HtmlAgilityPack.dll` | Dependency |
+| `System.Memory.dll` | Dependency (.NET Framework 4.8 only) |
+
+**Key Modifications in This Fork:**
+- Added .NET Framework 4.8 multi-targeting support
+- Implemented Table Complex Handling (`TableComplexHandling` config option)
+- Added Manual Test console application
+- Updated repository URLs and package metadata
+
+For detailed build instructions and versioning information, see [BUILD.md](BUILD.md) and [CHANGELOG.md](CHANGELOG.md).
+
 ## Configuration Options
 
 ### 📋 Quick Reference Table

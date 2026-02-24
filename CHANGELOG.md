@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for .NET Framework 4.8 multi-targeting
 - `System.Memory` package dependency for .NET Framework 4.8 to support Span<T>
 - BUILD.md with detailed build instructions
+- XML documentation file generation (`.xml`) for IntelliSense support and API documentation
 - Table Complex Handling with config option `TableComplexHandling`
   - Support preserve HTML table when colspan/rowspan present
   - 3 modes: ConvertToMarkdown, PreserveHtmlWhenComplex, AlwaysPreserveHtml
